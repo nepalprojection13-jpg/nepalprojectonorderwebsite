@@ -9,7 +9,6 @@
 <style>
   /* --- BASE DYNAMIC THEME SYSTEM --- */
   :root {
-    /* Default: Gold Palette */
     --accent-main: #d4af37;
     --accent-soft: #e8cd7a;
     --accent-light: #f3e6c9;
@@ -29,7 +28,6 @@
     --radius: 4px;
   }
 
-  /* Theme Variant 1: Violet */
   [data-theme="violet"] {
     --accent-main: #8b5cf6;
     --accent-soft: #a78bfa;
@@ -44,7 +42,6 @@
     --gradient-shimmer: linear-gradient(90deg, #ddd6fe 0%, #8b5cf6 25%, #ffffff 50%, #8b5cf6 75%, #ddd6fe 100%);
   }
 
-  /* Theme Variant 2: Emerald */
   [data-theme="emerald"] {
     --accent-main: #10b981;
     --accent-soft: #34d399;
@@ -59,7 +56,6 @@
     --gradient-shimmer: linear-gradient(90deg, #a7f3d0 0%, #10b981 25%, #ffffff 50%, #10b981 75%, #a7f3d0 100%);
   }
 
-  /* Theme Variant 3: Amber */
   [data-theme="amber"] {
     --accent-main: #f59e0b;
     --accent-soft: #fbbf24;
@@ -86,6 +82,90 @@
     position:relative;
   }
 
+  /* --- FULLSCREEN INTRO SCREEN --- */
+  #intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    background: var(--obsidian);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s;
+  }
+
+  #intro-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .intro-video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    filter: brightness(0.55) contrast(1.1);
+  }
+
+  .intro-overlay-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(10,10,12,0.2) 0%, rgba(10,10,12,0.9) 100%);
+    z-index: 2;
+  }
+
+  /* --- ANIMATED START BUTTON --- */
+  .start-experience-btn {
+    position: relative;
+    z-index: 3;
+    padding: 20px 52px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    background: rgba(10, 10, 12, 0.7);
+    border: 1px solid var(--accent-main);
+    border-radius: var(--radius);
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 25px var(--accent-glow-20), inset 0 0 15px var(--accent-glow-20);
+    transition: all 0.4s ease;
+    animation: glowPulse 2.5s infinite ease-in-out;
+  }
+
+  .start-experience-btn:hover {
+    background: var(--accent-main);
+    color: #0a0a0c;
+    box-shadow: 0 0 45px var(--accent-glow-70), 0 0 15px var(--accent-soft);
+    transform: scale(1.06);
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 20px var(--accent-glow-20), inset 0 0 15px var(--accent-glow-20);
+    }
+    50% {
+      transform: scale(1.04);
+      box-shadow: 0 0 40px var(--accent-glow-50), inset 0 0 25px var(--accent-glow-50);
+    }
+  }
+
   /* --- REVOLVING BACKGROUND CIRCLES & CANVAS --- */
   .bg-animation-container {
     position: fixed;
@@ -109,7 +189,6 @@
     height: 100%;
   }
 
-  /* Center Revolving Rings */
   .circle-ring {
     position: absolute;
     border-radius: 50%;
@@ -140,7 +219,6 @@
     animation: rotateClockwise 80s linear infinite;
   }
 
-  /* Orbiting Node on Outer Circle */
   .ring-1::after {
     content: '';
     position: absolute;
@@ -218,7 +296,6 @@
     background:var(--accent-main); color:#12100a; border-color:var(--accent-main); font-weight:700;
   }
 
-  /* --- THEME PICKER CONTROLS --- */
   .theme-picker {
     display: flex;
     gap: 0.5rem;
@@ -245,7 +322,7 @@
   .theme-btn[data-set-theme="emerald"] { background: #10b981; }
   .theme-btn[data-set-theme="amber"] { background: #f59e0b; }
 
-  /* --- FONT ENTRANCE ANIMATION --- */
+  /* --- FONT ENTRANCE ANIMATIONS --- */
   .entrance-text {
     opacity: 0;
     transform: translateY(40px) scale(0.96) rotateX(15deg);
@@ -264,7 +341,6 @@
     filter: blur(0px);
   }
 
-  /* --- LONG DURATION FONT & TEXT SHIMMER --- */
   .animated-text {
     background: var(--gradient-shimmer);
     background-size: 300% auto;
@@ -282,15 +358,9 @@
   }
 
   @keyframes longGlowFloat {
-    0% {
-      text-shadow: 0 0 8px var(--accent-glow-20);
-    }
-    50% {
-      text-shadow: 0 0 25px var(--accent-glow-50), 0 0 40px var(--accent-glow-20);
-    }
-    100% {
-      text-shadow: 0 0 8px var(--accent-glow-20);
-    }
+    0% { text-shadow: 0 0 8px var(--accent-glow-20); }
+    50% { text-shadow: 0 0 25px var(--accent-glow-50), 0 0 40px var(--accent-glow-20); }
+    100% { text-shadow: 0 0 8px var(--accent-glow-20); }
   }
 
   .glow-text {
@@ -312,7 +382,6 @@
 
   .hero{position:relative; padding:100px 0 80px; overflow:hidden; border-bottom:1px solid var(--line); transition: border-color 0.4s ease;}
   .hero-inner{position:relative; z-index:1; max-width:800px; margin:0 auto; text-align:center;}
-  
   .eyebrow{font-size:.78rem; margin-bottom:16px; display:block;}
 
   .reveal {
@@ -326,7 +395,6 @@
     transform: translateY(0);
   }
 
-  /* --- SECTIONS --- */
   .page-section{padding:88px 0; border-bottom:1px solid var(--line); position:relative; z-index:1; transition: border-color 0.4s ease;}
   .page-section.hidden{display:none !important;}
   .section-head{max-width:640px; margin:0 auto 48px auto; text-align:center;}
@@ -343,14 +411,12 @@
   .tier.featured{border-color:var(--accent-main);}
   .tier .price{font-family:'Cormorant Garamond',serif; color:var(--accent-soft); font-size:2.2rem; margin:10px 0; transition: color 0.4s ease;}
 
-  /* Squad Details Grid */
   .squad-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px;}
   .squad-card{
     background:rgba(21, 23, 28, 0.85); backdrop-filter: blur(10px); border:1px solid var(--line); border-radius:var(--radius); padding:24px; text-align:left; transition: border-color 0.4s ease;
   }
   .squad-card .role{color:var(--accent-main); font-size:.8rem; letter-spacing:.08em; display:block; margin-bottom:8px; transition: color 0.4s ease;}
 
-  /* Google Form Container */
   .google-form-container {
     width: 100%;
     background: #ffffff;
@@ -378,6 +444,15 @@
 </head>
 <body>
 
+<!-- FULLSCREEN VIDEO INTRO WITH ANIMATED BUTTON -->
+<div id="intro-screen">
+  <video class="intro-video-bg" autoplay loop muted playsinline>
+    <source src="Cube_logo_animation_assembling_202609091036.mp4" type="video/mp4">
+  </video>
+  <div class="intro-overlay-vignette"></div>
+  <button class="start-experience-btn" onclick="openMainPage()">START EXPERIENCE</button>
+</div>
+
 <!-- BACKGROUND ANIMATION CONTAINER (REVOLVING RINGS + PARTICLES) -->
 <div class="bg-animation-container">
   <canvas id="bg-canvas"></canvas>
@@ -396,7 +471,6 @@
       <button class="tab-btn" onclick="filterSection('order')">Place Order</button>
       <button class="tab-btn" onclick="filterSection('contact')">Contact</button>
       
-      <!-- COLOR THEME PICKER -->
       <div class="theme-picker" aria-label="Color Theme Switcher">
         <button class="theme-btn" data-set-theme="gold" title="Gold Theme"></button>
         <button class="theme-btn" data-set-theme="violet" title="Violet Theme"></button>
@@ -424,22 +498,22 @@
 <div class="page-section" id="sec-pricing">
   <section>
     <div class="wrap">
-      <div class="section-head reveal visible">
+      <div class="section-head reveal">
         <span class="eyebrow glow-text entrance-text" style="--delay: 0.1s;">INVESTMENT</span>
         <h2 class="animated-text entrance-text" style="--delay: 0.3s;">Pricing that scales</h2>
       </div>
       <div class="tiers">
-        <div class="tier reveal visible">
+        <div class="tier reveal">
           <h3 class="entrance-text" style="--delay: 0.2s;">Essentials</h3>
           <div class="price entrance-text" style="--delay: 0.3s;">$700<span style="font-size:1rem;color:#8f8a7c;"> start</span></div>
           <p class="entrance-text" style="--delay: 0.4s;">For a single page website.</p>
         </div>
-        <div class="tier featured reveal visible">
+        <div class="tier featured reveal">
           <h3 class="entrance-text" style="--delay: 0.3s;">Signature</h3>
           <div class="price entrance-text" style="--delay: 0.4s;">$3,200<span style="font-size:1rem;color:#8f8a7c;"> start</span></div>
           <p class="entrance-text" style="--delay: 0.5s;">Full customization with dedicated support.</p>
         </div>
-        <div class="tier reveal visible">
+        <div class="tier reveal">
           <h3 class="entrance-text" style="--delay: 0.4s;">Atelier Private</h3>
           <div class="price entrance-text" style="--delay: 0.5s;">Up to $20,000</div>
           <p class="entrance-text" style="--delay: 0.6s;">Fully custom web apps.</p>
@@ -453,22 +527,22 @@
 <div class="page-section" id="sec-squad">
   <section>
     <div class="wrap">
-      <div class="section-head reveal visible">
+      <div class="section-head reveal">
         <span class="eyebrow glow-text entrance-text" style="--delay: 0.1s;">OUR TEAM</span>
         <h2 class="animated-text entrance-text" style="--delay: 0.3s;">Squad Details</h2>
       </div>
       <div class="squad-grid">
-        <div class="squad-card reveal visible">
+        <div class="squad-card reveal">
           <span class="role entrance-text" style="--delay: 0.1s;">LEAD</span>
           <h3 class="entrance-text" style="--delay: 0.2s;">Baibhav Thakur</h3>
           <p class="entrance-text" style="--delay: 0.3s;">Directs overall projects, design system architecture, and core operations.</p>
         </div>
-        <div class="squad-card reveal visible">
+        <div class="squad-card reveal">
           <span class="role entrance-text" style="--delay: 0.2s;">CUSTOMER CARE</span>
           <h3 class="entrance-text" style="--delay: 0.3s;">Aaryan / Kabir</h3>
           <p class="entrance-text" style="--delay: 0.4s;">Handles client communication, project inquiries, and customer support.</p>
         </div>
-        <div class="squad-card reveal visible">
+        <div class="squad-card reveal">
           <span class="role entrance-text" style="--delay: 0.3s;">FUND MANAGER</span>
           <h3 class="entrance-text" style="--delay: 0.4s;">Nishang Rajbanshi</h3>
           <p class="entrance-text" style="--delay: 0.5s;">Manages financial planning, project budgets, and payment processing.</p>
@@ -482,12 +556,12 @@
 <div class="page-section" id="sec-order">
   <section>
     <div class="wrap">
-      <div class="section-head reveal visible">
+      <div class="section-head reveal">
         <span class="eyebrow glow-text entrance-text" style="--delay: 0.1s;">PLACE AN ORDER</span>
         <h2 class="animated-text entrance-text" style="--delay: 0.3s;">Tell us about your project</h2>
       </div>
 
-      <div class="google-form-container reveal visible">
+      <div class="google-form-container reveal">
         <iframe 
           src="https://docs.google.com/forms/d/e/1FAIpQLSf5NtLJzXfmlVD_LXo4PPfGYlb_Ye6Mo98lpkFnbynLTG6iZQ/viewform?embedded=true" 
           frameborder="0" 
@@ -503,7 +577,7 @@
 <!-- CONTACT SECTION -->
 <div class="page-section" id="sec-contact">
   <section>
-    <div class="wrap reveal visible">
+    <div class="wrap reveal">
       <div class="contact-card">
         <span class="entrance-text" style="color:#8f8a7c;font-size:.78rem;display:block;margin-bottom:8px;--delay:0.1s;">DIRECT INQUIRIES</span>
         <span class="val entrance-text" style="--delay: 0.3s;">nepalprojection13@gmail.com</span>
@@ -515,6 +589,22 @@
 <footer>© 2026 Nepal Projection. All rights reserved.</footer>
 
 <script>
+// CLICKING THE BUTTON FADES THE INTRO VIDEO AND OPENS 1ST PAGE
+function openMainPage() {
+  const intro = document.getElementById('intro-screen');
+  intro.classList.add('fade-out');
+
+  // Trigger text entrance animations right after clicking start
+  setTimeout(() => {
+    document.querySelectorAll("#sec-hero .entrance-text").forEach(el => {
+      el.classList.add("entered");
+    });
+    document.querySelectorAll("#sec-hero .reveal").forEach(el => {
+      el.classList.add("visible");
+    });
+  }, 200);
+}
+
 // THEME SWITCHER ENGINE
 const themeButtons = document.querySelectorAll('.theme-btn');
 themeButtons.forEach(button => {
@@ -622,7 +712,6 @@ document.addEventListener("DOMContentLoaded", function () {
     particles.push(new Particle());
   }
 
-  // Helper to pull the active computed dynamic color variable
   function getComputedColor() {
     return getComputedStyle(document.documentElement).getPropertyValue('--accent-main').trim() || '#d4af37';
   }
@@ -641,8 +730,6 @@ document.addEventListener("DOMContentLoaded", function () {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          
-          // Apply active theme color with distance-based dynamic transparency
           ctx.strokeStyle = activeColor;
           ctx.globalAlpha = 0.15 * (1 - dist / 100);
           ctx.lineWidth = 0.5;
